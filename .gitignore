@@ -1,2 +1,8 @@
 .DS_Store
 .vscode
+
+# Exclude sql/ directory SQL scripts, except README & example
+# This is because this repo is for testing scripts for other projects,
+# but we don't want to commit those scripts here. 
+sql/*.sql
+!sql/example.sql
