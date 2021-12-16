@@ -7,3 +7,7 @@
 # but we don't want to commit those scripts here. 
 sql/*.sql
 !sql/example.sql
+
+data/*.csv
+data/*.txt
+data/*.xlsx
