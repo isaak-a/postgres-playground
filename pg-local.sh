@@ -19,7 +19,10 @@ display_help() {
 }
 
 [ -f .env ] && source .env
-DEFAULT_DATABASE=${DATABASE_NAME:-dev}
+
+export POSTGRES_USER=${POSTGRES_USER:-postgres}
+export POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+export POSTGRES_DB=${POSTGRES_DB:-dev}
 
 case "$1" in
 pull)
@@ -29,15 +32,12 @@ create)
     docker run -d \
     -p 5432:5432 \
     --name pg-local \
-    -e POSTGRES_PASSWORD=postgres \
+    -e POSTGRES_USER \
+    -e POSTGRES_PASSWORD \
+    -e POSTGRES_DB \
     --volume "$PWD"/sql:/usr/src/sql \
     --volume "$PWD"/data:/usr/src/data \
     postgres
-
-    echo "Waiting for PostGres container to come online..."
-    sleep 3
-    echo "Creating default DB '${DEFAULT_DATABASE}'..."
-    docker exec -it pg-local psql -U postgres -c "CREATE DATABASE ${DEFAULT_DATABASE};"
     ;;
 start)
     docker start pg-local
@@ -51,14 +51,14 @@ destroy)
 prompt)
     docker exec -it pg-local \
         psql \
-        -U postgres \
-        -d "${DEFAULT_DATABASE}"
+        -U "${POSTGRES_USER}" \
+        -d "${POSTGRES_DB}"
     ;;
 execute)
     docker exec -it pg-local \
         psql \
-        -U postgres \
-        -d "${DEFAULT_DATABASE}" \
+        -U "${POSTGRES_USER}" \
+        -d "${POSTGRES_DB}" \
         -f "/usr/src/sql/$2"
     ;;
 help)
