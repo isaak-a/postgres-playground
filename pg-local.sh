@@ -30,7 +30,8 @@ create)
     -p 5432:5432 \
     --name pg-local \
     -e POSTGRES_PASSWORD=postgres \
-    --volume "$PWD"/sql:/usr/sql \
+    --volume "$PWD"/sql:/usr/src/sql \
+    --volume "$PWD"/data:/usr/src/data \
     postgres
 
     echo "Waiting for PostGres container to come online..."
@@ -58,7 +59,7 @@ execute)
         psql \
         -U postgres \
         -d "${DEFAULT_DATABASE}" \
-        -f "/usr/sql/$2"
+        -f "/usr/src/sql/$2"
     ;;
 help)
     display_help
