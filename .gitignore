@@ -1,5 +1,6 @@
 .DS_Store
 .vscode
+*.env
 
 # Exclude sql/ directory SQL scripts, except README & example
 # This is because this repo is for testing scripts for other projects,

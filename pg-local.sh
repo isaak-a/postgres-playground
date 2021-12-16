@@ -18,6 +18,9 @@ display_help() {
     echo
 }
 
+[ -f .env ] && source .env
+DEFAULT_DATABASE=${DATABASE_NAME:-dev}
+
 case "$1" in
 pull)
     docker pull postgres
@@ -30,8 +33,10 @@ create)
     --volume "$PWD"/sql:/usr/sql \
     postgres
 
+    echo "Waiting for PostGres container to come online..."
     sleep 3
-    docker exec -it pg-local psql -U postgres -c "CREATE DATABASE dev;"
+    echo "Creating default DB '${DEFAULT_DATABASE}'..."
+    docker exec -it pg-local psql -U postgres -c "CREATE DATABASE ${DEFAULT_DATABASE};"
     ;;
 start)
     docker start pg-local
@@ -46,13 +51,13 @@ prompt)
     docker exec -it pg-local \
         psql \
         -U postgres \
-        -d dev
+        -d "${DEFAULT_DATABASE}"
     ;;
 execute)
     docker exec -it pg-local \
         psql \
         -U postgres \
-        -d dev \
+        -d "${DEFAULT_DATABASE}" \
         -f "/usr/sql/$2"
     ;;
 help)
