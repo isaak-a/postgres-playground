@@ -4,7 +4,7 @@ display_help() {
     echo "=================================================="
     echo "             Postgres Playround!                  "
     echo "=================================================="
-    echo "Syntax: ./pg-local.sh [command]"
+    echo "Syntax: ./pg-local [command]"
     echo
     echo "---commands---"
     echo "help             Print CLI help"

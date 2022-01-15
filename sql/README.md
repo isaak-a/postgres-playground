@@ -5,11 +5,11 @@ Any files in this directory will be mounted as a volume in the running PostGres 
 To run a file, from the project root run:
 
 ```bash
-./pg-local.sh execute <my_file_name>.sql
+./pg-local execute <my_file_name>.sql
 ```
 
 Do not include the full path, just the name of the file. So to run the example script, run:
 
 ```bash
-./pg-local.sh execute example.sql
+./pg-local execute example.sql
 ```
