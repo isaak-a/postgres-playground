@@ -15,6 +15,7 @@ display_help() {
     echo "destroy          Delete the DB container"
     echo "prompt           Start an interactive psql prompt in the container"
     echo "execute          Execute a sql file - must be in sql/ dir"
+    echo "dump             Print out DDL for the default database"
     echo
 }
 
@@ -60,6 +61,13 @@ execute)
         -U "${POSTGRES_USER}" \
         -d "${POSTGRES_DB}" \
         -f "/usr/src/sql/$2"
+    ;;
+dump)
+    docker exec -it pg-local \
+        pg_dump \
+        -U "${POSTGRES_USER}" \
+        -d "${POSTGRES_DB}" \
+        --schema-only
     ;;
 help)
     display_help
